@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		061EC4E01C96BF1600901886 /* Controllers in Resources */ = {isa = PBXBuildFile; fileRef = 061EC4DF1C96BF1600901886 /* Controllers */; };
+		061EC4E31C96C9E900901886 /* PlayersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061EC4E21C96C9E900901886 /* PlayersTableViewController.swift */; };
 		062EB74C1C96BD1F008B4D4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 062EB74B1C96BD1F008B4D4F /* main.m */; };
 		062EB74F1C96BD1F008B4D4F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 062EB74E1C96BD1F008B4D4F /* AppDelegate.m */; };
 		062EB7521C96BD1F008B4D4F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062EB7511C96BD1F008B4D4F /* ViewController.m */; };
@@ -37,6 +38,8 @@
 
 /* Begin PBXFileReference section */
 		061EC4DF1C96BF1600901886 /* Controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Controllers; sourceTree = "<group>"; };
+		061EC4E11C96C9E900901886 /* NavJs-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NavJs-Bridging-Header.h"; sourceTree = "<group>"; };
+		061EC4E21C96C9E900901886 /* PlayersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersTableViewController.swift; sourceTree = "<group>"; };
 		062EB7471C96BD1F008B4D4F /* NavJs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavJs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		062EB74B1C96BD1F008B4D4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		062EB74D1C96BD1F008B4D4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -113,6 +116,8 @@
 				062EB7581C96BD1F008B4D4F /* LaunchScreen.storyboard */,
 				062EB75B1C96BD1F008B4D4F /* Info.plist */,
 				062EB74A1C96BD1F008B4D4F /* Supporting Files */,
+				061EC4E21C96C9E900901886 /* PlayersTableViewController.swift */,
+				061EC4E11C96C9E900901886 /* NavJs-Bridging-Header.h */,
 			);
 			path = NavJs;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				061EC4E31C96C9E900901886 /* PlayersTableViewController.swift in Sources */,
 				062EB7521C96BD1F008B4D4F /* ViewController.m in Sources */,
 				062EB74F1C96BD1F008B4D4F /* AppDelegate.m in Sources */,
 				062EB74C1C96BD1F008B4D4F /* main.m in Sources */,
@@ -417,10 +423,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = NavJs/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.haobtc.NavJs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "NavJs/NavJs-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -428,10 +437,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = NavJs/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.haobtc.NavJs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "NavJs/NavJs-Bridging-Header.h";
 			};
 			name = Release;
 		};
