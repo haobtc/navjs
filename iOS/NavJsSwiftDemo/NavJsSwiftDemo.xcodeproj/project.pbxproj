@@ -14,6 +14,10 @@
 		066567501C97CF87008AF118 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0665674E1C97CF87008AF118 /* LaunchScreen.storyboard */; };
 		0665675B1C97CF88008AF118 /* NavJsSwiftDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0665675A1C97CF88008AF118 /* NavJsSwiftDemoTests.swift */; };
 		066567661C97CF88008AF118 /* NavJsSwiftDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066567651C97CF88008AF118 /* NavJsSwiftDemoUITests.swift */; };
+		066567811C97DF23008AF118 /* NavJsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0665677F1C97DF23008AF118 /* NavJsContainerViewController.swift */; };
+		066567821C97DF23008AF118 /* NavJsContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 066567801C97DF23008AF118 /* NavJsContainerViewController.xib */; };
+		066567851C97E37B008AF118 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 066567841C97E37B008AF118 /* index.html */; };
+		066567891C97ECAF008AF118 /* start.js in Resources */ = {isa = PBXBuildFile; fileRef = 066567881C97ECAF008AF118 /* start.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		066567611C97CF88008AF118 /* NavJsSwiftDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavJsSwiftDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		066567651C97CF88008AF118 /* NavJsSwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavJsSwiftDemoUITests.swift; sourceTree = "<group>"; };
 		066567671C97CF88008AF118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0665677F1C97DF23008AF118 /* NavJsContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavJsContainerViewController.swift; sourceTree = "<group>"; };
+		066567801C97DF23008AF118 /* NavJsContainerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavJsContainerViewController.xib; sourceTree = "<group>"; };
+		066567841C97E37B008AF118 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		066567881C97ECAF008AF118 /* start.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = start.js; path = NavJsSwift/start.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +105,14 @@
 		066567441C97CF87008AF118 /* NavJsSwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				066567831C97DF32008AF118 /* NavJsSwift */,
 				066567451C97CF87008AF118 /* AppDelegate.swift */,
 				066567471C97CF87008AF118 /* ViewController.swift */,
 				066567491C97CF87008AF118 /* Main.storyboard */,
 				0665674C1C97CF87008AF118 /* Assets.xcassets */,
 				0665674E1C97CF87008AF118 /* LaunchScreen.storyboard */,
 				066567511C97CF87008AF118 /* Info.plist */,
+				066567841C97E37B008AF118 /* index.html */,
 			);
 			path = NavJsSwiftDemo;
 			sourceTree = "<group>";
@@ -123,6 +133,16 @@
 				066567671C97CF88008AF118 /* Info.plist */,
 			);
 			path = NavJsSwiftDemoUITests;
+			sourceTree = "<group>";
+		};
+		066567831C97DF32008AF118 /* NavJsSwift */ = {
+			isa = PBXGroup;
+			children = (
+				0665677F1C97DF23008AF118 /* NavJsContainerViewController.swift */,
+				066567801C97DF23008AF118 /* NavJsContainerViewController.xib */,
+				066567881C97ECAF008AF118 /* start.js */,
+			);
+			name = NavJsSwift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,9 +249,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066567851C97E37B008AF118 /* index.html in Resources */,
 				066567501C97CF87008AF118 /* LaunchScreen.storyboard in Resources */,
 				0665674D1C97CF87008AF118 /* Assets.xcassets in Resources */,
+				066567821C97DF23008AF118 /* NavJsContainerViewController.xib in Resources */,
 				0665674B1C97CF87008AF118 /* Main.storyboard in Resources */,
+				066567891C97ECAF008AF118 /* start.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				066567481C97CF87008AF118 /* ViewController.swift in Sources */,
+				066567811C97DF23008AF118 /* NavJsContainerViewController.swift in Sources */,
 				066567461C97CF87008AF118 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

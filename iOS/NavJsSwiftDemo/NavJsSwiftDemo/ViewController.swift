@@ -9,6 +9,16 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var button: UIButton!
+    @IBAction func buttonTapped(_: AnyObject) {
+        print("button tapped")
+        let c = NavJsContainerViewController(nibName: "NavJsContainerViewController", bundle: nil)
+        let path = NSBundle.mainBundle().pathForResource("index", ofType: "html")
+        print("path is \(path)")
+        c.url = NSURL(string: path!)
+        self.navigationController?.pushViewController(c, animated: true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
