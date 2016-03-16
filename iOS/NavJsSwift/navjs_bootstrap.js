@@ -65,13 +65,4 @@ var navjs =
     })();
 
 // Tests
-/*
-  navjs.log("hello", "world", "bridge ok");
 
-  navjs.emit("hello", {mygoods: "pipi", nick: 234})
-
-  document.addEventListener('hello', function(e) {
-    navjs.log("event received hello", e.args.text);
-    document.body.innerHTML += JSON.stringify(e.args);
-  }, false)
-*/

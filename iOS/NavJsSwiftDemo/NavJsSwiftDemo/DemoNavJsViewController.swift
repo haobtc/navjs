@@ -28,8 +28,8 @@ class DemoNavJsViewController: NavJsViewController {
         return DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
     }
 
-    override func onEvent(name: String, kwargs: [String: [String]]) {
-        super.onEvent(name, kwargs: kwargs)
+    override func onEvent(name: String, params: BridgeParams) {
+        super.onEvent(name, params: params)
         if name == "hello" {
             self.sendEvent("hello", kwargs: ["text": ["waka"], "mike": ["niike"]])
         }
