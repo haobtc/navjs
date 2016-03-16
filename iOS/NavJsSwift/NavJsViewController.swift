@@ -1,5 +1,5 @@
 //
-//  NavJsContainerViewController.swift
+//  NavJsViewController.swift
 //  
 //
 //  Created by ZengKe on 16/3/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NavJsContainerViewController: UIViewController, UIWebViewDelegate {
+class NavJsViewController: UIViewController, UIWebViewDelegate {
 
     var url: NSURL?
     var contentWebView: UIWebView!
@@ -67,12 +67,15 @@ class NavJsContainerViewController: UIViewController, UIWebViewDelegate {
                 print("request query \(query), commands \(cmds)");
                 if cmds.count >= 2 {
                     if cmds[1] == "url" && cmds[2] == "open" {
-                    // open url in navigator
-                        let vc = NavJsContainerViewController(nibName: "NavJsContainerViewController", bundle: nil)
-                        vc.url = NSURL(string: query["u"]!)
-                        self.navigationController?.pushViewController(vc, animated: true)
+                        let url = NSURL(string: query["u"]!)
+                        if let vc = self.nextNavJsViewController(url!) {
+                            vc.url = url
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        } else {
+                            print("cannot detect next navjs controller")
+                        }
                     } else if cmds[1] == "console" && cmds[2] == "log" {
-                        print("navjs: \(query["msg"]!)");
+                        print("navjs: \(query["msg"]!)")
                     }
                 }
                 return false
@@ -81,13 +84,14 @@ class NavJsContainerViewController: UIViewController, UIWebViewDelegate {
         return true
     }
     
+    
     func webViewDidFinishLoad(webView: UIWebView) {
         let theTitle = webView.stringByEvaluatingJavaScriptFromString("document.title")
         if theTitle != nil && theTitle != "" {
             self.title = theTitle
         }
         
-        let path = NSBundle.mainBundle().pathForResource("start", ofType: "js")
+        let path = NSBundle.mainBundle().pathForResource("navjs_start", ofType: "js")
         do {
             let data = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
             //print("start.js data \(data)")
@@ -98,6 +102,12 @@ class NavJsContainerViewController: UIViewController, UIWebViewDelegate {
             print(error)
         }
     }
+    
+    // Overridable methods
+    func nextNavJsViewController(url: NSURL) -> NavJsViewController? {
+        return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
