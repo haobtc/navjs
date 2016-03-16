@@ -33,21 +33,23 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
 
     override func loadView() {
         super.loadView()
-        self.contentWebView = UIWebView()
-        self.contentWebView.backgroundColor = UIColor.whiteColor()
-        self.contentWebView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight, .FlexibleBottomMargin, .FlexibleRightMargin]
+        self.view.autoresizesSubviews = true
+        self.contentWebView = UIWebView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
+        self.contentWebView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         self.contentWebView.delegate = self
         self.view.addSubview(self.contentWebView)
     }
     
     func setURL(asset: String, ofType: String) {
         let path = NSBundle.mainBundle().pathForResource(asset, ofType: ofType)
+        print("set url \(path)")
         self.url = NSURL(string: path!)
     }
     
     func loadUrl() {
         if self.url != nil {
             let req = NSURLRequest(URL:self.url!)
+            print("req \(req)")
             self.contentWebView.loadRequest(req)
         }
     }
