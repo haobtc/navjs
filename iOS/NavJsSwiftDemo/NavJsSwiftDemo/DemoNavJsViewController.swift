@@ -25,11 +25,11 @@ class DemoNavJsViewController: NavJsViewController {
         return DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
     }
 
-    override func onEvent(name: String, kwargs: [String: String]) {
+    override func onEvent(name: String, kwargs: [String: [String]]) {
         print("on event \(name) with \(kwargs)")
         super.onEvent(name, kwargs: kwargs)
         if name == "hello" {
-            self.sendEvent("hello", kwargs: ["text": "waka", "mike": "niike"])
+            self.sendEvent("hello", kwargs: ["text": ["waka"], "mike": ["niike"]])
         }
     }
     

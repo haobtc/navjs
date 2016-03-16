@@ -54,20 +54,25 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
             let url = request.URL!
             //print("url \(url)")
             if url.scheme == "navjs" {
-                var query = Dictionary<String, String>()
+                var query = Dictionary<String, [String]>()
                 for pair in (url.query?.componentsSeparatedByString("&"))! {
                     let p = [String](pair.componentsSeparatedByString("="))
                     
                     let k = p[0]
                     url.pathComponents
                     let v = p[1].stringByRemovingPercentEncoding!
-                    query[k] = v
+                    query[k]?.append(v)
+                    if query[k] != nil {
+                        query[k]!.append(v)
+                    } else {
+                        query[k] = [v]
+                    }
                 }
                 let cmds = url.pathComponents!
                 //print("request query \(query), commands \(cmds)");
                 if cmds.count >= 2 {
                     if cmds[1] == "url" && cmds[2] == "open" {
-                        let url = NSURL(string: query["u"]!)
+                        let url = NSURL(string: query["u"]![0])
                         if let vc = self.nextNavJsViewController(url!) {
                             vc.url = url
                             self.navigationController?.pushViewController(vc, animated: true)
@@ -75,7 +80,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                             print("cannot detect next navjs controller")
                         }
                     } else if cmds[1] == "console" && cmds[2] == "log" {
-                        print("navjs: \(query["msg"]!)")
+                        print("navjs: \(query["msg"]![0])")
                     } else if cmds[1] == "event" {
                         self.onEvent(cmds[2], kwargs: query)
                     }
@@ -104,7 +109,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
-    func sendEvent(name: String, kwargs: [String: String]) {
+    func sendEvent(name: String, kwargs: [String: [String]]) {
         do {
             var ds = "(function() {var evt = new Event('" + name + "'); evt.args="
             let data = try NSJSONSerialization.dataWithJSONObject(kwargs, options: .PrettyPrinted)
@@ -123,7 +128,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
     }
 
-    func onEvent(name: String, kwargs: [String: String]) {
+    func onEvent(name: String, kwargs: [String: [String]]) {
         // do Nothing
     }
     

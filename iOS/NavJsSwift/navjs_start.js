@@ -29,10 +29,16 @@ var navjs =
       target = target || '_blank';
       window.location = 'navjs://localhost/url/open?u=' + escape(href) + '&gt=' + escape(target);
    };
-   inst.emit = function(name, params) {
+   inst.emit = function(name, args) {
       var arr = [];
-      Object.keys(params).forEach(function(k){
-          arr.push(k + '=' + escape(params[k]))
+      Object.keys(args).forEach(function(k){
+                                  var vs = args[k];
+                                  if(!(vs instanceof Array)) {
+                                     vs = [vs]
+                                  }
+                                  vs.forEach(function(v) {
+                                     arr.push(k + '=' + escape(v))
+                                  })
       })
       var loc = 'navjs://localhost/event/' + name + '?' + arr.join('&');
       window.location = loc;
