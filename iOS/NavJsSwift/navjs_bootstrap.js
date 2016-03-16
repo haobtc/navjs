@@ -10,7 +10,6 @@
     if(tgt && !!a.href) {
       console.info(a);
       a.href = 'navjs://localhost/url/open?u=' + escape(a.href) + '&tgt=' + escape(tgt);
-      console.info('xxx', a);
     }
   }
 })()
@@ -27,6 +26,8 @@ var navjs =
         }
         window.location = 'navjs://localhost/console/log?msg=' + escape(msgs.join(" "));
       };
+     
+      // Open a url by pushing a new navigation item
       inst.open = function(href, target) {
         target = target || '_blank';
         window.location = 'navjs://localhost/url/open?u=' + escape(href) + '&gt=' + escape(target);
