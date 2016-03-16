@@ -29,7 +29,25 @@ var navjs =
       target = target || '_blank';
       window.location = 'navjs://localhost/url/open?u=' + escape(href) + '&gt=' + escape(target);
    };
-    return inst;
+   inst.emit = function(name, params) {
+      var arr = [];
+      Object.keys(params).forEach(function(k){
+          arr.push(k + '=' + escape(params[k]))
+      })
+      var loc = 'navjs://localhost/event/' + name + '?' + arr.join('&');
+      window.location = loc;
+   };
+   return inst;
 })()
 
+// Tests
+/*
 navjs.log("hello", "world", "bridge ok");
+
+navjs.emit("hello", {mygoods: "pipi", nick: 234})
+
+document.addEventListener('hello', function(e) {
+                          navjs.log("event received hello", e.args.text);
+                          document.body.innerHTML += e.args.text;
+                          }, false)
+*/

@@ -52,7 +52,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         //if navigationType == .LinkClicked {
         if true {
             let url = request.URL!
-            print("url \(url)")
+            //print("url \(url)")
             if url.scheme == "navjs" {
                 var query = Dictionary<String, String>()
                 for pair in (url.query?.componentsSeparatedByString("&"))! {
@@ -64,7 +64,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                     query[k] = v
                 }
                 let cmds = url.pathComponents!
-                print("request query \(query), commands \(cmds)");
+                //print("request query \(query), commands \(cmds)");
                 if cmds.count >= 2 {
                     if cmds[1] == "url" && cmds[2] == "open" {
                         let url = NSURL(string: query["u"]!)
@@ -76,6 +76,8 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                         }
                     } else if cmds[1] == "console" && cmds[2] == "log" {
                         print("navjs: \(query["msg"]!)")
+                    } else if cmds[1] == "event" {
+                        self.onEvent(cmds[2], kwargs: query)
                     }
                 }
                 return false
@@ -94,7 +96,6 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         let path = NSBundle.mainBundle().pathForResource("navjs_start", ofType: "js")
         do {
             let data = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
-            //print("start.js data \(data)")
             if data != "" {
                 webView.stringByEvaluatingJavaScriptFromString(data)
             }
@@ -103,9 +104,27 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
+    func sendEvent(name: String, kwargs: [String: String]) {
+        do {
+            var ds = "(function() {var evt = new Event('" + name + "'); evt.args="
+            let data = try NSJSONSerialization.dataWithJSONObject(kwargs, options: .PrettyPrinted)
+            ds += String(data: data, encoding:NSUTF8StringEncoding) ?? "{}"
+            ds += ";document.dispatchEvent(evt);})()"
+            //print("ds is \(ds)")
+            self.contentWebView.stringByEvaluatingJavaScriptFromString(ds)
+            //print("return \(r)")
+        } catch {
+            print(error)
+        }
+    }
+    
     // Overridable methods
     func nextNavJsViewController(url: NSURL) -> NavJsViewController? {
         return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
+    }
+
+    func onEvent(name: String, kwargs: [String: String]) {
+        // do Nothing
     }
     
     /*
