@@ -98,7 +98,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
             self.title = theTitle
         }
         
-        let path = NSBundle.mainBundle().pathForResource("navjs_start", ofType: "js")
+        let path = NSBundle.mainBundle().pathForResource("navjs_bootstrap", ofType: "js")
         do {
             let data = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
             if data != "" {
@@ -111,11 +111,11 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     
     func sendEvent(name: String, kwargs: [String: [String]]) {
         do {
-            var ds = "(function() {var evt = new Event('" + name + "'); evt.args="
+            var ds = "navjs.dispatch('" + name + "', "
             let data = try NSJSONSerialization.dataWithJSONObject(kwargs, options: .PrettyPrinted)
             ds += String(data: data, encoding:NSUTF8StringEncoding) ?? "{}"
-            ds += ";document.dispatchEvent(evt);})()"
-            //print("ds is \(ds)")
+            ds += ")"
+            print("ds is \(ds)")
             self.contentWebView.stringByEvaluatingJavaScriptFromString(ds)
             //print("return \(r)")
         } catch {
