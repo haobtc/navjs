@@ -12,6 +12,7 @@
 		063B2B6F1C98FC4A00A5039C /* navjs_bootstrap.js in Resources */ = {isa = PBXBuildFile; fileRef = 063B2B6C1C98FC4A00A5039C /* navjs_bootstrap.js */; };
 		063B2B721C990DE000A5039C /* DemoNavJsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063B2B701C990DE000A5039C /* DemoNavJsViewController.swift */; };
 		063B2B731C990DE000A5039C /* DemoNavJsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 063B2B711C990DE000A5039C /* DemoNavJsViewController.xib */; };
+		063B2B771C994B1B00A5039C /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 063B2B761C994B1B00A5039C /* index.html */; };
 		066567461C97CF87008AF118 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066567451C97CF87008AF118 /* AppDelegate.swift */; };
 		066567481C97CF87008AF118 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066567471C97CF87008AF118 /* ViewController.swift */; };
 		0665674B1C97CF87008AF118 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 066567491C97CF87008AF118 /* Main.storyboard */; };
@@ -19,7 +20,6 @@
 		066567501C97CF87008AF118 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0665674E1C97CF87008AF118 /* LaunchScreen.storyboard */; };
 		0665675B1C97CF88008AF118 /* NavJsSwiftDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0665675A1C97CF88008AF118 /* NavJsSwiftDemoTests.swift */; };
 		066567661C97CF88008AF118 /* NavJsSwiftDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066567651C97CF88008AF118 /* NavJsSwiftDemoUITests.swift */; };
-		066567851C97E37B008AF118 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 066567841C97E37B008AF118 /* index.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +45,7 @@
 		063B2B6C1C98FC4A00A5039C /* navjs_bootstrap.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = navjs_bootstrap.js; sourceTree = "<group>"; };
 		063B2B701C990DE000A5039C /* DemoNavJsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoNavJsViewController.swift; sourceTree = "<group>"; };
 		063B2B711C990DE000A5039C /* DemoNavJsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemoNavJsViewController.xib; sourceTree = "<group>"; };
+		063B2B761C994B1B00A5039C /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		066567421C97CF87008AF118 /* NavJsSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavJsSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		066567451C97CF87008AF118 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		066567471C97CF87008AF118 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		066567611C97CF88008AF118 /* NavJsSwiftDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavJsSwiftDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		066567651C97CF88008AF118 /* NavJsSwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavJsSwiftDemoUITests.swift; sourceTree = "<group>"; };
 		066567671C97CF88008AF118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		066567841C97E37B008AF118 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +89,7 @@
 		063B2B691C98FC4A00A5039C /* NavJsSwift */ = {
 			isa = PBXGroup;
 			children = (
+				063B2B751C994B1B00A5039C /* WebRoot */,
 				063B2B6A1C98FC4A00A5039C /* NavJsViewController.swift */,
 				063B2B6B1C98FC4A00A5039C /* NavJsViewController.xib */,
 				063B2B6C1C98FC4A00A5039C /* navjs_bootstrap.js */,
@@ -96,6 +97,15 @@
 			name = NavJsSwift;
 			path = ../../NavJsSwift;
 			sourceTree = "<group>";
+		};
+		063B2B751C994B1B00A5039C /* WebRoot */ = {
+			isa = PBXGroup;
+			children = (
+				063B2B761C994B1B00A5039C /* index.html */,
+			);
+			name = WebRoot;
+			path = NavJsSwiftDemo/WebRoot;
+			sourceTree = SOURCE_ROOT;
 		};
 		066567391C97CF87008AF118 = {
 			isa = PBXGroup;
@@ -127,7 +137,6 @@
 				0665674C1C97CF87008AF118 /* Assets.xcassets */,
 				0665674E1C97CF87008AF118 /* LaunchScreen.storyboard */,
 				066567511C97CF87008AF118 /* Info.plist */,
-				066567841C97E37B008AF118 /* index.html */,
 				063B2B701C990DE000A5039C /* DemoNavJsViewController.swift */,
 				063B2B711C990DE000A5039C /* DemoNavJsViewController.xib */,
 			);
@@ -256,8 +265,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				063B2B771C994B1B00A5039C /* index.html in Resources */,
 				063B2B6E1C98FC4A00A5039C /* NavJsViewController.xib in Resources */,
-				066567851C97E37B008AF118 /* index.html in Resources */,
 				066567501C97CF87008AF118 /* LaunchScreen.storyboard in Resources */,
 				0665674D1C97CF87008AF118 /* Assets.xcassets in Resources */,
 				063B2B731C990DE000A5039C /* DemoNavJsViewController.xib in Resources */,

@@ -18,6 +18,8 @@
 var navjs =
     (function() {
       var inst = {};
+      
+      // Print log information
       inst.log = function() {
         var msgs = [];
         for(var i=0; i<arguments.length; i++) {
@@ -29,7 +31,8 @@ var navjs =
         target = target || '_blank';
         window.location = 'navjs://localhost/url/open?u=' + escape(href) + '&gt=' + escape(target);
       };
-      
+
+      // Emit an event
       inst.emit = function(name, args) {
         var arr = [];
         Object.keys(args).forEach(function(k){
@@ -44,7 +47,8 @@ var navjs =
         var loc = 'navjs://localhost/event/' + name + '?' + arr.join('&');
         window.location = loc;
       };
-      
+
+      // Dispatch a event
       inst.dispatch = function(name, args) {
         Object.keys(args).forEach(function(k) {
           var v = args[k];
@@ -56,8 +60,9 @@ var navjs =
         evt.args = args;
         document.dispatchEvent(evt);
       }
+
       return inst;
-    })()
+    })();
 
 // Tests
 /*

@@ -30,7 +30,6 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     override func loadView() {
         super.loadView()
@@ -39,6 +38,11 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         self.contentWebView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight, .FlexibleBottomMargin, .FlexibleRightMargin]
         self.contentWebView.delegate = self
         self.view.addSubview(self.contentWebView)
+    }
+    
+    func setURL(asset: String, ofType: String) {
+        let path = NSBundle.mainBundle().pathForResource(asset, ofType: ofType)
+        self.url = NSURL(string: path!)
     }
     
     func loadUrl() {
@@ -115,7 +119,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
             let data = try NSJSONSerialization.dataWithJSONObject(kwargs, options: .PrettyPrinted)
             ds += String(data: data, encoding:NSUTF8StringEncoding) ?? "{}"
             ds += ")"
-            print("ds is \(ds)")
+            //print("ds is \(ds)")
             self.contentWebView.stringByEvaluatingJavaScriptFromString(ds)
             //print("return \(r)")
         } catch {

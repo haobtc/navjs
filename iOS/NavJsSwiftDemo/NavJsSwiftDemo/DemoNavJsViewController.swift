@@ -11,6 +11,9 @@ import UIKit
 class DemoNavJsViewController: NavJsViewController {
 
     override func viewDidLoad() {
+        if self.url == nil {
+            self.setURL("index", ofType: "html")
+        }
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.

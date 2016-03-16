@@ -14,9 +14,9 @@ class ViewController: UIViewController {
     @IBAction func buttonTapped(_: AnyObject) {
         print("button tapped")
         let c = DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
-        let path = NSBundle.mainBundle().pathForResource("index", ofType: "html")
+        /*let path = NSBundle.mainBundle().pathForResource("index", ofType: "html")
         print("path is \(path)")
-        c.url = NSURL(string: path!)
+        c.url = NSURL(string: path!)*/
         self.navigationController?.pushViewController(c, animated: true)
     }
 
