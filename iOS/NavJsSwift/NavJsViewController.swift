@@ -104,8 +104,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                     if cmds[1] == "url" && cmds[2] == "open" {
                         if let u = params.get("u") {
                             let url = NSURL(string: u)
-                            if let vc = self.nextNavJsViewController(url!) {
-                                vc.url = url
+                            if let vc = self.nextViewController(url!) {
                                 self.navigationController?.pushViewController(vc, animated: true)
                             } else {
                                 print("cannot detect next navjs controller")
@@ -156,8 +155,10 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     }
     
     // Overridable methods
-    func nextNavJsViewController(url: NSURL) -> NavJsViewController? {
-        return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
+    func nextViewController(url: NSURL) -> UIViewController? {
+        let vc = NavJsViewController(nibName: "NavJsViewController", bundle: nil)
+        vc.url = url
+        return vc
     }
 
     func onEvent(name: String, params: BridgeParams) {

@@ -24,8 +24,10 @@ class DemoNavJsViewController: NavJsViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func nextNavJsViewController(url: NSURL) -> NavJsViewController? {
-        return DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
+    override func nextViewController(url: NSURL) -> UIViewController? {
+        let vc = DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
+        vc.url = url
+        return vc
     }
 
     override func onEvent(name: String, params: BridgeParams) {
