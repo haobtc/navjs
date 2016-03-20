@@ -9,7 +9,7 @@
     var tgt = a.target;
     if(tgt && !!a.href) {
       console.info(a);
-      a.href = 'navjs://localhost/url/open?u=' + escape(a.href) + '&tgt=' + escape(tgt);
+      a.href = 'navjs://localhost/url/open?href=' + escape(a.href) + '&target=' + escape(tgt);
     }
   }
 })()
@@ -28,9 +28,16 @@ var navjs =
       };
      
       // Open a url by pushing a new navigation item
-      inst.open = function(href, target) {
-        target = target || '_blank';
-        window.location = 'navjs://localhost/url/open?u=' + escape(href) + '&gt=' + escape(target);
+      inst.open = function(href, opts) {
+        opts = opts || {}
+        opts.target = opts.target || '_blank'
+        opts.trans = opts.trans || "push"
+        var h = '';
+        Object.keys(opts).forEach(function(k) {
+          h += '&' + k + '=' + escape(opts[k]);
+        })
+        var loc = 'navjs://localhost/url/open?href=' + escape(href) + h;
+        window.location = loc;
       };
 
       // Emit an event

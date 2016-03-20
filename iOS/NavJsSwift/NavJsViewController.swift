@@ -35,11 +35,17 @@ class BridgeParams {
 class NavJsViewController: UIViewController, UIWebViewDelegate {
 
     var url: NSURL?
+    var isPresent: Bool = false
     var contentWebView: UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if self.isPresent {
+            let dismissButton = UIBarButtonItem(title: "Dismiss", style: .Plain, target: self, action: "dismiss")
+            self.navigationItem.rightBarButtonItem = dismissButton
+        }
+        
         // Do any additional setup after loading the view.
         self.loadUrl()
     }
@@ -49,6 +55,10 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
             self.contentWebView?.delegate = nil
             self.contentWebView = nil
         }
+    }
+    
+    func dismiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,10 +112,18 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                 //print("request query \(params), commands \(cmds)");
                 if cmds.count >= 2 {
                     if cmds[1] == "url" && cmds[2] == "open" {
-                        if let u = params.get("u") {
+
+                        if let u = params.get("href") {
                             let url = NSURL(string: u)
-                            if let vc = self.nextViewController(url!) {
-                                self.navigationController?.pushViewController(vc, animated: true)
+                            if let vc = self.nextViewController(url!, params: params) {
+                                switch (params.get("trans") ?? "push") {
+                                case "present":
+                                    let nav = UINavigationController()
+                                    nav.pushViewController(vc, animated: true)
+                                    self.navigationController?.presentViewController(nav, animated: true, completion: nil)
+                                default:
+                                    self.navigationController?.pushViewController(vc, animated: true)
+                                }
                             } else {
                                 print("cannot detect next navjs controller")
                             }
@@ -155,9 +173,12 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     }
     
     // Overridable methods
-    func nextViewController(url: NSURL) -> UIViewController? {
+    func nextViewController(url: NSURL, params:BridgeParams) -> UIViewController? {
         let vc = NavJsViewController(nibName: "NavJsViewController", bundle: nil)
         vc.url = url
+        if params.get("trans") == "present" {
+            vc.isPresent = true
+        }
         return vc
     }
 

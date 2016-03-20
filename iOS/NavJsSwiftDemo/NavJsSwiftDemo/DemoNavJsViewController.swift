@@ -24,9 +24,12 @@ class DemoNavJsViewController: NavJsViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func nextViewController(url: NSURL) -> UIViewController? {
+    override func nextViewController(url: NSURL, params: BridgeParams) -> UIViewController? {
         let vc = DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
         vc.url = url
+        if params.get("trans") == "present" {
+            vc.isPresent = true
+        }
         return vc
     }
 

@@ -89,7 +89,6 @@
 		063B2B691C98FC4A00A5039C /* NavJsSwift */ = {
 			isa = PBXGroup;
 			children = (
-				063B2B751C994B1B00A5039C /* WebRoot */,
 				063B2B6A1C98FC4A00A5039C /* NavJsViewController.swift */,
 				063B2B6B1C98FC4A00A5039C /* NavJsViewController.xib */,
 				063B2B6C1C98FC4A00A5039C /* navjs_bootstrap.js */,
@@ -131,6 +130,7 @@
 		066567441C97CF87008AF118 /* NavJsSwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				063B2B751C994B1B00A5039C /* WebRoot */,
 				063B2B691C98FC4A00A5039C /* NavJsSwift */,
 				066567451C97CF87008AF118 /* AppDelegate.swift */,
 				066567491C97CF87008AF118 /* Main.storyboard */,
