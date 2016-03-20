@@ -102,9 +102,9 @@ public class NavJsActivity extends AppCompatActivity {
                     List<String> cmds = uri.getPathSegments();
 
                     Log.i("Uri", uri.toString());
-                    Map<String, List<String>> params = getUrlParams(uri.getQuery());
+                    Map<String, List<String>> params = decodeUrlParams(uri.getQuery());
                     if (cmds.size() == 2 && cmds.get(0).equals("url") && cmds.get(1).equals("open")) {
-                        String urlString = params.get("u").get(0);
+                        String urlString = params.get("href").get(0);
                         Intent intent = new Intent(self, self.getActivityClass(urlString));
                         intent.putExtra(PARAM_URL, urlString);
                         String title = params.get("title").get(0);
@@ -125,7 +125,7 @@ public class NavJsActivity extends AppCompatActivity {
 
 
 
-    public static Map<String, List<String>> getUrlParams(String query) {
+    public static Map<String, List<String>> decodeUrlParams(String query) {
         Map<String, List<String>> params = new HashMap<String, List<String>>();
         try {
             for (String param : query.split("&")) {
