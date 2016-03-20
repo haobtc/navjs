@@ -36,9 +36,11 @@ public class NavJsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
-        WebView webView = (WebView) findViewById(R.id.content_webview);
+        //WebView webView = (WebView) findViewById(R.id.content_webview);
+        WebView webView = new WebView(this);
+        setContentView(webView);
         setupWebView(webView);
 
         String pageTitle = getIntent().getStringExtra(PARAM_TITLE);
@@ -102,17 +104,19 @@ public class NavJsActivity extends AppCompatActivity {
                     List<String> cmds = uri.getPathSegments();
 
                     Log.i("Uri", uri.toString());
-                    Map<String, List<String>> params = decodeUrlParams(uri.getQuery());
+                    BridgeParams params = new BridgeParams();
+                    params.decodeQuery(uri.getQuery());
                     if (cmds.size() == 2 && cmds.get(0).equals("url") && cmds.get(1).equals("open")) {
-                        String urlString = params.get("href").get(0);
-                        Intent intent = new Intent(self, self.getActivityClass(urlString));
-                        intent.putExtra(PARAM_URL, urlString);
-                        String title = params.get("title").get(0);
-                        if (title != null) {
-                            intent.putExtra(PARAM_TITLE, title);
+                        String urlString = params.get("href");
+                        if (urlString != null) {
+                            Intent intent = new Intent(self, self.getActivityClass(urlString));
+                            intent.putExtra(PARAM_URL, urlString);
+                            String title = params.get("title");
+                            if (title != null) {
+                                intent.putExtra(PARAM_TITLE, title);
+                            }
+                            startActivity(intent);
                         }
-
-                        startActivity(intent);
                     }
                     return true;
                 }
@@ -121,31 +125,6 @@ public class NavJsActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-
-
-    public static Map<String, List<String>> decodeUrlParams(String query) {
-        Map<String, List<String>> params = new HashMap<String, List<String>>();
-        try {
-            for (String param : query.split("&")) {
-                String pair[] = param.split("=");
-                String key = URLDecoder.decode(pair[0], "UTF-8");
-                String value = "";
-                if (pair.length > 1) {
-                    value = URLDecoder.decode(pair[1], "UTF-8");
-                }
-                List<String> values = params.get(key);
-                if (values == null) {
-                    values = new ArrayList<String>();
-                    params.put(key, values);
-                }
-                values.add(value);
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return params;
     }
 
     // Overridable
