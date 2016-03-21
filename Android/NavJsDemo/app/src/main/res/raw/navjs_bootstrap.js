@@ -21,14 +21,14 @@ window.navjs =
         for(var i=0; i<arguments.length; i++) {
           msgs.push(arguments[i]);
         }
-        window.location = 'navjs://localhost/console/log?msg=' + escape(msgs.join(" "));
+        window.location = 'navjs://localhost/console/log?msg=' + escape(msgs.join(' '));
       };
 
       // Open a url by pushing a new navigation item
       inst.open = function(href, opts) {
         opts = opts || {}
         opts.target = opts.target || '_blank'
-        opts.trans = opts.trans || "push"
+        opts.trans = opts.trans || 'push'
         var h = '';
         Object.keys(opts).forEach(function(k) {
           h += '&' + k + '=' + escape(opts[k]);
