@@ -140,7 +140,6 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         return true
     }
     
-    
     func webViewDidFinishLoad(webView: UIWebView) {
         let theTitle = webView.stringByEvaluatingJavaScriptFromString("document.title")
         if theTitle != nil && theTitle != "" {
@@ -183,7 +182,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     }
 
     func onEvent(name: String, params: BridgeParams) {
-        if name == "actionsheet.open" {
+        if name == "menu.open" {
             self.showActionSheet(params.get("title"),
                                  message: params.get("message"),
                                  cancel: params.get("cancel"),
@@ -201,7 +200,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         
         if cancel != nil {
             let act = UIAlertAction(title:cancel, style: .Cancel) { action -> Void in
-                self.sendEvent("actionsheet.clicked", kwargs: ["cancel": [cancel!], "sequence": [seq ?? ""]])
+                self.sendEvent("menu.clicked", kwargs: ["cancel": [cancel!], "sequence": [seq ?? ""]])
             }
             actionSheet.addAction(act)
         }
@@ -210,7 +209,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         for (index, actionText) in actions.enumerate() {
             let act = UIAlertAction(title:actionText, style: .Default) { action -> Void in
                 let t = action.title!
-                self.sendEvent("actionsheet.clicked", kwargs: ["title": [t], "index": [String(index)], "sequence": [seq ?? ""]])
+                self.sendEvent("menu.clicked", kwargs: ["title": [t], "index": [String(index)], "sequence": [seq ?? ""]])
             }
             actionSheet.addAction(act)
         }

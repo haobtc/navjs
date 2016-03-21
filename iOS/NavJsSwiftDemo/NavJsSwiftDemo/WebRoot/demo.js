@@ -13,7 +13,7 @@ function runDemo() {
 }
 
 function callActionSheet() {
-  navjs.emit("actionsheet.open",
+  navjs.emit("menu.open",
              {"title": "Choose friend",
               "message": "Who would be the friend?",
               "cancel": "Cancel",

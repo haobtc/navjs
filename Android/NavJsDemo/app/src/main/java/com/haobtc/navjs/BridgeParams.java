@@ -1,7 +1,12 @@
 package com.haobtc.navjs;
 
+import android.util.JsonWriter;
+
+import java.io.IOException;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,4 +56,33 @@ public class BridgeParams {
         }
     }
 
+    public String encodeJson() {
+        try {
+            StringWriter buffer = new StringWriter();
+            JsonWriter writer = new JsonWriter(buffer);
+
+            writer.beginObject();
+            for (String key: params.keySet()) {
+                writer.name(key);
+                writer.beginArray();
+                for (String value: params.get(key)) {
+                    writer.value(value);
+                }
+                writer.endArray();
+            }
+            writer.endObject();
+            writer.close();
+            return buffer.toString();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String toString() {
+        return encodeJson();
+    }
 }

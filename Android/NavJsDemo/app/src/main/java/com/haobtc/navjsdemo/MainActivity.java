@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.haobtc.navjs.BridgeParams;
 import com.haobtc.navjs.NavJsActivity;
 
 import java.io.IOException;
@@ -85,5 +86,16 @@ public class MainActivity extends NavJsActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    @Override
+    public void onEvent(String action, BridgeParams params) {
+        super.onEvent(action, params);
+        if(action.equals("hello")) {
+            BridgeParams ret = new BridgeParams();
+            ret.add("text", "waka");
+            ret.add("mike", "niike");
+            sendEvent("hello", ret);
+        }
     }
 }
