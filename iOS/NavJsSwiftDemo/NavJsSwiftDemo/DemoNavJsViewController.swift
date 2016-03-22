@@ -25,12 +25,7 @@ class DemoNavJsViewController: NavJsViewController {
     }
     
     override func nextViewController(url: NSURL, params: BridgeParams) -> UIViewController? {
-        let vc = DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
-        vc.url = url
-        if params.get("trans") == "present" {
-            vc.isPresent = true
-        }
-        return vc
+        return DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
     }
 
     override func onEvent(name: String, params: BridgeParams) {

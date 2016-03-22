@@ -116,6 +116,12 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                         if let u = params.get("href") {
                             let url = NSURL(string: u)
                             if let vc = self.nextViewController(url!, params: params) {
+                                if let navjsVc = vc as? NavJsViewController {
+                                    navjsVc.url = url!
+                                    if params.get("trans") == "present" {
+                                        navjsVc.isPresent = true
+                                    }
+                                }
                                 switch (params.get("trans") ?? "push") {
                                 case "present":
                                     let nav = UINavigationController()
@@ -173,12 +179,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     
     // Overridable methods
     func nextViewController(url: NSURL, params:BridgeParams) -> UIViewController? {
-        let vc = NavJsViewController(nibName: "NavJsViewController", bundle: nil)
-        vc.url = url
-        if params.get("trans") == "present" {
-            vc.isPresent = true
-        }
-        return vc
+        return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
     }
 
     func onEvent(name: String, params: BridgeParams) {
