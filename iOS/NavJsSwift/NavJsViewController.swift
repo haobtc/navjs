@@ -138,6 +138,8 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                         print("navjs: \(params.get("msg"))")
                     } else if cmds[1] == "event" {
                         self.onEvent(cmds[2], params: params)
+                    } else if cmds[1] == "call" {
+                        self.onCall(cmds[2], callId: cmds[3], params: params)
                     }
                 }
                 return false
@@ -177,6 +179,19 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
+    func callReturn(callId: String, result: [String: [String]]) {
+        do {
+            var ds = "navjs.callReturn('" + callId + "', "
+            let data = try NSJSONSerialization.dataWithJSONObject(result, options: .PrettyPrinted)
+            ds += String(data: data, encoding:NSUTF8StringEncoding) ?? "{}"
+            ds += ")"
+            //print("ds is \(ds)")
+            self.contentWebView.stringByEvaluatingJavaScriptFromString(ds)
+        } catch {
+            print(error)
+        }
+    }
+    
     // Overridable methods
     func nextViewController(url: NSURL, params:BridgeParams) -> UIViewController? {
         return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
@@ -188,29 +203,50 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                                  message: params.get("message"),
                                  cancel: params.get("cancel"),
                                  seq: params.get("sequence"),
-                                 actions: (params.getList("actions") ?? []))
+                                 actions: (params.getList("actions") ?? []),
+                                 callId: nil)
+        }
+    }
+    
+    func onCall(name: String, callId: String, params: BridgeParams) {
+        if name == "menu.open" {
+            self.showActionSheet(params.get("title"),
+                message: params.get("message"),
+                cancel: params.get("cancel"),
+                seq: params.get("sequence"),
+                actions: (params.getList("actions") ?? []),
+                callId: callId
+            )
         }
     }
     
     // Event Handlers
     
     // Show action sheet according to event
-    func showActionSheet(title:String?, message:String?, cancel: String?, seq: String?, actions:[String]) {
+    func showActionSheet(title:String?, message:String?, cancel: String?, seq: String?, actions:[String], callId:String?) {
         let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
         actionSheet.modalPresentationStyle = .Popover
         
         if cancel != nil {
             let act = UIAlertAction(title:cancel, style: .Cancel) { action -> Void in
-                self.sendEvent("menu.clicked", kwargs: ["cancel": [cancel!], "sequence": [seq ?? ""]])
+                print("actionsheet cancelled", callId)
+                if callId == nil {
+                    self.sendEvent("menu.clicked", kwargs: ["cancel": [cancel!], "sequence": [seq ?? ""]])
+                } else {
+                    self.callReturn(callId!, result: ["cancel": ["true"], "sequence": [seq ?? ""]])
+                }
             }
             actionSheet.addAction(act)
         }
         
-        
         for (index, actionText) in actions.enumerate() {
             let act = UIAlertAction(title:actionText, style: .Default) { action -> Void in
                 let t = action.title!
-                self.sendEvent("menu.clicked", kwargs: ["title": [t], "index": [String(index)], "sequence": [seq ?? ""]])
+                if callId == nil {
+                    self.sendEvent("menu.clicked", kwargs: ["title": [t], "index": [String(index)], "sequence": [seq ?? ""]])
+                } else {
+                    self.callReturn(callId!, result: ["title": [t], "index": [String(index)], "sequence": [seq ?? ""]])
+                }
             }
             actionSheet.addAction(act)
         }

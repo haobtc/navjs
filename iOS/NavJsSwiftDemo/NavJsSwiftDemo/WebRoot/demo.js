@@ -12,20 +12,24 @@ function runDemo() {
   }
 }
 
+function callAdd() {
+  navjs.call("add", {a: 3, b: 5}, function(res) {
+    document.body.innerHTML += JSON.stringify(res);
+  });
+}
+
 function callActionSheet() {
-  navjs.emit("menu.open",
+  navjs.call("menu.open",
              {"title": "Choose friend",
               "message": "Who would be the friend?",
-              "cancel": "Cancel",
+              "cancel": "Cancel Name",
               "sequence": "123",
-              "actions": ["Mike", "Jake", "Merry", "Rose"]});
-  if(!window.boundActionSheet) {
-    window.boundActionSheet = true;
-    document.addEventListener('actionsheet.clicked', function(e) {
-      if (e.args.title) {
-        var span = document.getElementById('friend');
-        span.innerHTML = 'Choosed ' + e.args.title;
-      }
-    });
-  }
+              "actions": ["Mike", "Jake", "Merry", "Rose"]}, function(res) {
+               var span = document.getElementById('friend');
+               if (res.title) {
+                 span.innerHTML = 'Choosed ' + res.title;
+               } else if(res.cancel) {
+                 span.innerHTML = 'Choosed None';
+               }
+             });
 }

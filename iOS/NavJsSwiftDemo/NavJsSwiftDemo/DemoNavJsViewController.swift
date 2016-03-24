@@ -35,6 +35,16 @@ class DemoNavJsViewController: NavJsViewController {
         }
     }
     
+    override func onCall(name: String, callId: String, params: BridgeParams) {
+        super.onCall(name, callId: callId, params: params);
+        if name == "add" {
+            let a = Int(params.get("a")!)
+            let b = Int(params.get("b")!)
+            let r = String(a! + b!)
+            self.callReturn(callId, result: ["added": [r]])
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
