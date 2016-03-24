@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.JsonWriter;
 import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -97,6 +99,15 @@ public class NavJsWebView extends WebView {
                             if (mClient != null) {
                                 mClient.onEvent(self, action, params);
                             }
+                        }  else if (obj.equals("call")) {
+                            if (mClient != null) {
+                                String callId = cmds.get(2);
+                                if (callId == null || callId.equals("")) {
+                                    Log.w("Call", "No callId");
+                                } else {
+                                    mClient.onCall(self, action, callId, params);
+                                }
+                            }
                         }
                     }
                     return true;
@@ -120,5 +131,10 @@ public class NavJsWebView extends WebView {
     public void sendEvent(String action, BridgeParams params) {
         String json = params.encodeJson();
         evaluateJavascript("navjs.dispatch(\'" + action + "\'," + json + ")", null);
+    }
+
+    public void callReturn(String callId, BridgeParams params) {
+        String json = params.encodeJson();
+        evaluateJavascript("navjs.callReturn(\'" + callId + "\'," + json + ")", null);
     }
 }

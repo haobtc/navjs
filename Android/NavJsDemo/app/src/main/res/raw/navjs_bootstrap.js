@@ -1,7 +1,9 @@
 window.navjs =
     (function() {
       var inst = {};
-
+      inst.callbacks = {};
+      inst.callId = 1000;
+      
       inst.bootstrap = function () {
         var arr = document.getElementsByTagName('a');
         var len = arr.length;
@@ -64,8 +66,43 @@ window.navjs =
         var evt = new Event(name);
         evt.args = args;
         document.dispatchEvent(evt);
-      }
+      };
 
+      inst.call = function(name, args, cb) {
+        var arr = [];
+        inst.callId++;
+        var callId = 'c' + inst.callId;
+        inst.callbacks[callId] = cb;
+
+        Object.keys(args).forEach(function(k){
+          var vs = args[k];
+          if(!(vs instanceof Array)) {
+            vs = [vs]
+          }
+          vs.forEach(function(v) {
+            arr.push(k + '=' + escape(v))
+          })
+        })
+        var loc = 'navjs://localhost/call/' + name + '/' + callId + '?' + arr.join('&');
+        window.location = loc;
+      };
+
+      inst.callReturn = function(callId, result) {
+        var cb = inst.callbacks[callId];
+        if(cb) {
+          Object.keys(result).forEach(function(k) {
+            var v = result[k];
+            if(v instanceof Array && v.length == 1) {
+              result[k] = v[0];
+            }
+          });
+          cb(result);
+          delete inst.callbacks[callId];
+        } else {
+          inst.log('callback not found', callId);
+        }
+      };
+      
       return inst;
     })().bootstrap();
 

@@ -99,4 +99,16 @@ public class MainActivity extends NavJsActivity {
             webView.sendEvent("hello", ret);
         }
     }
+
+    @Override
+    public void onCall(NavJsWebView webView, String action, String callId, BridgeParams params) {
+        super.onCall(webView, action, callId, params);
+        if(action.equals("add")) {
+            BridgeParams ret = new BridgeParams();
+            int a = Integer.parseInt(params.get("a"));
+            int b = Integer.parseInt(params.get("b"));
+            ret.add("added", "" + (a + b));
+            webView.callReturn(callId, ret);
+        }
+    }
 }

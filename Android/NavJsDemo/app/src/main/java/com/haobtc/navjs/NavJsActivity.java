@@ -63,6 +63,11 @@ public class NavJsActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onCall(NavJsWebView webView, String action, String callId, BridgeParams params) {
+                self.onCall(webView, action, callId, params);
+            }
+
+            @Override
             public void onPageTitleChanged(NavJsWebView webView, String title) {
                 self.setTitle(title);
             }
@@ -107,6 +112,11 @@ public class NavJsActivity extends AppCompatActivity {
     public void onEvent(NavJsWebView webView, String action, BridgeParams params) {
         // TODO: add event handlers
         Log.i("RECEIVENAVJS", action + " " + params);
+    }
+
+    public void onCall(NavJsWebView webView, String action, String callId, BridgeParams params) {
+        // TODO: add event handlers
+        Log.i("onCall", action + " " + callId + " " + params);
     }
 
     // Overridable

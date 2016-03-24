@@ -11,3 +11,9 @@ function runDemo() {
     }, false);
   }
 }
+
+function callAdd() {
+  navjs.call("add", {a: 3, b: 5}, function(res) {
+    document.body.innerHTML += JSON.stringify(res);
+  });
+}
