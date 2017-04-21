@@ -11,7 +11,7 @@ import UIKit
 class BridgeParams {
     var dict = [String: [String]]()
     
-    func add(key: String, value: String) {
+    func add(_ key: String, value: String) {
         if self.dict[key] != nil {
             self.dict[key]!.append(value)
         } else {
@@ -19,7 +19,7 @@ class BridgeParams {
         }
     }
     
-    func get(key: String) -> String? {
+    func get(_ key: String) -> String? {
         if self.dict[key] != nil {
             return self.dict[key]![0]
         } else {
@@ -27,14 +27,14 @@ class BridgeParams {
         }
     }
     
-    func getList(key: String) -> [String]? {
+    func getList(_ key: String) -> [String]? {
         return self.dict[key]
     }
 }
 
 class NavJsViewController: UIViewController, UIWebViewDelegate {
 
-    var url: NSURL?
+    var url: URL?
     var isPresent: Bool = false
     var contentWebView: UIWebView!
     
@@ -42,7 +42,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         if self.isPresent {
-            let dismissButton = UIBarButtonItem(title: "Dismiss", style: .Plain, target: self, action: "dismiss")
+            let dismissButton = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(NavJsViewController.dismiss as (NavJsViewController) -> () -> ()))
             self.navigationItem.rightBarButtonItem = dismissButton
         }
         
@@ -58,7 +58,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     }
     
     func dismiss() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,47 +74,50 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         self.contentWebView = UIWebView(frame: self.view.bounds)
         //iew = UIWebView(frame: CGRectMake(20, 20, self.view.frame.width-40, self.view.frame.height-200))
         //self.contentWebView.layer.borderColor = UIColor.redColor().CGColor
-        self.contentWebView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.contentWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.contentWebView.delegate = self
         //self.contentWebView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.contentWebView)
     }
     
-    func setURL(asset: String, ofType: String) {
-        let path = NSBundle.mainBundle().pathForResource(asset, ofType: ofType)
-        self.url = NSURL(string: path!)
+    func setURL(_ asset: String, ofType: String) {
+        let path = Bundle.main.path(forResource: asset, ofType: ofType)
+        self.url = URL(string: path!)
     }
     
     func loadUrl() {
         if self.url != nil {
-            let req = NSURLRequest(URL:self.url!)
+            let req = URLRequest(url:self.url!)
             self.contentWebView.loadRequest(req)
         }
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         //if navigationType == .LinkClicked {
         if true {
-            let url = request.URL!
+            let url = request.url!
             print("url \(url)")
             if url.scheme == "navjs" {
                 //var query = Dictionary<String, [String]>()
                 let params = BridgeParams()
                 
-                for pair in (url.query?.componentsSeparatedByString("&"))! {
-                    let p = [String](pair.componentsSeparatedByString("="))
+                for pair in (url.query?.components(separatedBy: "&"))! {
+                    let p = [String](pair.components(separatedBy: "="))
                     
                     let k = p[0]
-                    let v = p[1].stringByRemovingPercentEncoding!
-                    params.add(k, value: v)
+                    //let v = p[1].stringByRemovingPercentEncoding!
+                    //let v = p[1].stringByRemovingPercentEncoding()
+                    let v = p[1].removingPercentEncoding
+                    params.add(k, value: v!)
                 }
-                let cmds = url.pathComponents!
+                //let cmds = url.pathComponents!
+                let cmds = url.pathComponents
                 //print("request query \(params), commands \(cmds)");
                 if cmds.count >= 2 {
                     if cmds[1] == "url" && cmds[2] == "open" {
 
                         if let u = params.get("href") {
-                            let url = NSURL(string: u)
+                            let url = URL(string: u)
                             if let vc = self.nextViewController(url!, params: params) {
                                 if let navjsVc = vc as? NavJsViewController {
                                     navjsVc.url = url!
@@ -126,7 +129,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
                                 case "present":
                                     let nav = UINavigationController()
                                     nav.pushViewController(vc, animated: true)
-                                    self.navigationController?.presentViewController(nav, animated: true, completion: nil)
+                                    self.navigationController?.present(nav, animated: true, completion: nil)
                                 default:
                                     self.navigationController?.pushViewController(vc, animated: true)
                                 }
@@ -148,56 +151,56 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         return true
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
-        let theTitle = webView.stringByEvaluatingJavaScriptFromString("document.title")
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        let theTitle = webView.stringByEvaluatingJavaScript(from: "document.title")
         if theTitle != nil && theTitle != "" {
             self.title = theTitle
         }
         
-        let path = NSBundle.mainBundle().pathForResource("navjs_bootstrap", ofType: "js")
+        let path = Bundle.main.path(forResource: "navjs_bootstrap", ofType: "js")
         do {
-            let data = try String(contentsOfFile: path!, encoding: NSUTF8StringEncoding)
+            let data = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
             if data != "" {
-                webView.stringByEvaluatingJavaScriptFromString(data)
+                webView.stringByEvaluatingJavaScript(from: data)
             }
         } catch {
             print(error)
         }
     }
     
-    func sendEvent(name: String, kwargs: [String: [String]]) {
+    func sendEvent(_ name: String, kwargs: [String: [String]]) {
         do {
             var ds = "navjs.dispatch('" + name + "', "
-            let data = try NSJSONSerialization.dataWithJSONObject(kwargs, options: .PrettyPrinted)
-            ds += String(data: data, encoding:NSUTF8StringEncoding) ?? "{}"
+            let data = try JSONSerialization.data(withJSONObject: kwargs, options: .prettyPrinted)
+            ds += String(data: data, encoding:String.Encoding.utf8) ?? "{}"
             ds += ")"
             //print("ds is \(ds)")
-            self.contentWebView.stringByEvaluatingJavaScriptFromString(ds)
+            self.contentWebView.stringByEvaluatingJavaScript(from: ds)
             //print("return \(r)")
         } catch {
             print(error)
         }
     }
     
-    func callReturn(callId: String, result: [String: [String]]) {
+    func callReturn(_ callId: String, result: [String: [String]]) {
         do {
             var ds = "navjs.callReturn('" + callId + "', "
-            let data = try NSJSONSerialization.dataWithJSONObject(result, options: .PrettyPrinted)
-            ds += String(data: data, encoding:NSUTF8StringEncoding) ?? "{}"
+            let data = try JSONSerialization.data(withJSONObject: result, options: .prettyPrinted)
+            ds += String(data: data, encoding:String.Encoding.utf8) ?? "{}"
             ds += ")"
             //print("ds is \(ds)")
-            self.contentWebView.stringByEvaluatingJavaScriptFromString(ds)
+            self.contentWebView.stringByEvaluatingJavaScript(from: ds)
         } catch {
             print(error)
         }
     }
     
     // Overridable methods
-    func nextViewController(url: NSURL, params:BridgeParams) -> UIViewController? {
+    func nextViewController(_ url: URL, params:BridgeParams) -> UIViewController? {
         return NavJsViewController(nibName: "NavJsViewController", bundle: nil)
     }
 
-    func onEvent(name: String, params: BridgeParams) {
+    func onEvent(_ name: String, params: BridgeParams) {
         if name == "menu.open" {
             self.showActionSheet(params.get("title"),
                                  message: params.get("message"),
@@ -208,7 +211,7 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
-    func onCall(name: String, callId: String, params: BridgeParams) {
+    func onCall(_ name: String, callId: String, params: BridgeParams) {
         if name == "menu.open" {
             self.showActionSheet(params.get("title"),
                 message: params.get("message"),
@@ -223,12 +226,12 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
     // Event Handlers
     
     // Show action sheet according to event
-    func showActionSheet(title:String?, message:String?, cancel: String?, seq: String?, actions:[String], callId:String?) {
-        let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
-        actionSheet.modalPresentationStyle = .Popover
+    func showActionSheet(_ title:String?, message:String?, cancel: String?, seq: String?, actions:[String], callId:String?) {
+        let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        actionSheet.modalPresentationStyle = .popover
         
         if cancel != nil {
-            let act = UIAlertAction(title:cancel, style: .Cancel) { action -> Void in
+            let act = UIAlertAction(title:cancel, style: .cancel) { action -> Void in
                 print("actionsheet cancelled", callId)
                 if callId == nil {
                     self.sendEvent("menu.clicked", kwargs: ["cancel": [cancel!], "sequence": [seq ?? ""]])
@@ -239,8 +242,8 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
             actionSheet.addAction(act)
         }
         
-        for (index, actionText) in actions.enumerate() {
-            let act = UIAlertAction(title:actionText, style: .Default) { action -> Void in
+        for (index, actionText) in actions.enumerated() {
+            let act = UIAlertAction(title:actionText, style: .default) { action -> Void in
                 let t = action.title!
                 if callId == nil {
                     self.sendEvent("menu.clicked", kwargs: ["title": [t], "index": [String(index)], "sequence": [seq ?? ""]])
@@ -252,10 +255,10 @@ class NavJsViewController: UIViewController, UIWebViewDelegate {
         }
         if let popoverController = actionSheet.popoverPresentationController {
             popoverController.sourceView = self.view;
-            popoverController.sourceRect = CGRectMake(20, 20, self.view.bounds.width - 40, self.view.bounds.height-40) //self.view.bounds;
+            popoverController.sourceRect = CGRect(x: 20, y: 20, width: self.view.bounds.width - 40, height: self.view.bounds.height-40) //self.view.bounds;
             //popoverController.sourceRect = self.contentWebView.bounds;
         }
-        self.presentViewController(actionSheet, animated: true, completion: nil)
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
     /*

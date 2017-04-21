@@ -24,18 +24,18 @@ class DemoNavJsViewController: NavJsViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func nextViewController(url: NSURL, params: BridgeParams) -> UIViewController? {
+    override func nextViewController(_ url: URL, params: BridgeParams) -> UIViewController? {
         return DemoNavJsViewController(nibName: "DemoNavJsViewController", bundle: nil)
     }
 
-    override func onEvent(name: String, params: BridgeParams) {
+    override func onEvent(_ name: String, params: BridgeParams) {
         super.onEvent(name, params: params)
         if name == "hello" {
             self.sendEvent("hello", kwargs: ["text": ["waka"], "mike": ["niike"]])
         }
     }
     
-    override func onCall(name: String, callId: String, params: BridgeParams) {
+    override func onCall(_ name: String, callId: String, params: BridgeParams) {
         super.onCall(name, callId: callId, params: params);
         if name == "add" {
             let a = Int(params.get("a")!)
